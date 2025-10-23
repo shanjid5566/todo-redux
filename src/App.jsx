@@ -1,6 +1,10 @@
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 
 function App() {
+  const todos = useSelector((state) => state.todos);
+  console.log(todos);
+  const dispatch = useDispatch();
   return (
     <div className="bg-gray-100 min-h-screen py-12 ">
       <div className="container mx-auto max-w-lg p-6 bg-white rounded-xl shadow-lg">
@@ -26,26 +30,38 @@ function App() {
         </div>
 
         {/* Task List Section */}
-        <div className="space-y-3">
-          {/* Shudhu UI dekhanor jonno dummy item 1 */}
-          <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-            <input
-              type="checkbox"
-              className="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-            />
-            <label className="ml-3 block text-gray-700 font-medium">
-              Go grocery shopping
-            </label>
-            <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200">
-              remove
-            </button>
+        {todos.length === 0 ? (
+          <p className="text-center text-gray-500">No tasks available.</p>
+        ) : (
+          <div className="space-y-3">
+            {todos.map((todo) => (
+              <div
+                key={todo.id}
+                className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200 shadow-sm"
+              >
+                <label
+                  className={`ml-3 block font-medium ${
+                    todo.completed
+                      ? "text-gray-400 line-through"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {todo.text}
+                </label>
+                <button
+                  className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
+                >
+                  completed
+                </button>
+                <button
+                  className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
+                >
+                  remove
+                </button>
+              </div>
+            ))}
           </div>
-        </div>
-
-        {/* Footer Message (Dummy) */}
-        <p className="text-center text-gray-400 text-sm mt-8">
-          You have 1 tasks today.
-        </p>
+        )}
       </div>
     </div>
   );
