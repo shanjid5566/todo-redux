@@ -6,7 +6,17 @@ const loadState = () => {
   try {
     const serialized = localStorage.getItem('todos');
     if (serialized === null) return undefined;
-    return { todos: JSON.parse(serialized) };
+    const todos = JSON.parse(serialized);
+    // Ensure every todo has a serial. If not, assign serials based on order.
+    let maxSerial = todos.reduce((m, t) => Math.max(m, t.serial ?? 0), 0);
+    const migrated = todos.map((t) => {
+      if (t.serial == null) {
+        maxSerial += 1;
+        return { ...t, serial: maxSerial };
+      }
+      return t;
+    });
+    return { todos: migrated };
   } catch (e) {
     console.error('Failed to load state from localStorage', e);
     return undefined;

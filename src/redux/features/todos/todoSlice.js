@@ -4,8 +4,12 @@ const todoSlice = createSlice({
   initialState: [],
   reducers: {
     addTodo: (state, action) => {
+      // Determine the next serial number (max existing serial + 1)
+      const maxSerial = state.reduce((m, t) => Math.max(m, t.serial ?? 0), 0);
+      const newSerial = maxSerial + 1;
       state.push({
         id: Date.now(),
+        serial: newSerial,
         text: action.payload,
         completed: false,
       });

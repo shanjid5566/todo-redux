@@ -50,7 +50,7 @@ function App() {
               <div
                 key={todo.id}
                 className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200 shadow-sm"
-              >
+              > 
                 <label
                   className={`ml-3 block font-medium ${
                     todo.completed
@@ -58,6 +58,7 @@ function App() {
                       : "text-gray-700"
                   }`}
                 >
+                  <span className="text-sm text-gray-500 font-bold mr-2">{todo.serial} .</span>
                   {todo.text}
                 </label>
                 <div className="flex space-x-2">
