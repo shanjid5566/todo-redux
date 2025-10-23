@@ -1,7 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
+import { useState } from "react";
+import { addTodo } from "./redux/features/todos/todoSlice";
 
 function App() {
+  const [newTodo, setNewTodo] = useState("");
   const todos = useSelector((state) => state.todos);
   console.log(todos);
   const dispatch = useDispatch();
@@ -19,11 +22,16 @@ function App() {
             type="text"
             placeholder="Add a new task..."
             className="flex-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-            // "disabled" rakha hoyeche karon apni shudhu UI cheyechen
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
           />
           <button
             className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-200"
-            disabled // Functional na
+            disabled={!newTodo}
+            onClick={() => {
+              dispatch(addTodo(newTodo));
+              setNewTodo("");
+            }}
           >
             Add
           </button>
@@ -48,14 +56,10 @@ function App() {
                 >
                   {todo.text}
                 </label>
-                <button
-                  className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
-                >
+                <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200">
                   completed
                 </button>
-                <button
-                  className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
-                >
+                <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200">
                   remove
                 </button>
               </div>
