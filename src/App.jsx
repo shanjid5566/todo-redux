@@ -29,10 +29,16 @@ function App() {
         <div className="space-y-3">
           {/* Shudhu UI dekhanor jonno dummy item 1 */}
           <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
+            <input
+              type="checkbox"
+              className="h-5 w-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+            />
             <label className="ml-3 block text-gray-700 font-medium">
               Go grocery shopping
             </label>
-            <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200">remove</button>
+            <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200">
+              remove
+            </button>
           </div>
         </div>
 
