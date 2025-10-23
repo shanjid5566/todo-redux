@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { useState } from "react";
-import { addTodo, removeTodo, toggleTodo } from "./redux/features/todos/todoSlice";
+import {
+  addTodo,
+  removeTodo,
+  toggleTodo,
+} from "./redux/features/todos/todoSlice";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
@@ -56,20 +60,24 @@ function App() {
                 >
                   {todo.text}
                 </label>
-                <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
-                onClick={()=>{
-                  dispatch(toggleTodo(todo.id))
-                }}
-                >
-                  completed
-                </button>
-                <button className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
-                onClick={()=>{
-                  dispatch(removeTodo(todo.id))
-                }}
-                >
-                  remove
-                </button>
+                <div className="flex space-x-2">
+                  <button
+                    className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
+                    onClick={() => {
+                      dispatch(toggleTodo(todo.id));
+                    }}
+                  >
+                    completed
+                  </button>
+                  <button
+                    className="text-red-600 hover:text-red-800 bg-red-100 px-4 py-2 rounded-lg cursor-pointer transition duration-200"
+                    onClick={() => {
+                      dispatch(removeTodo(todo.id));
+                    }}
+                  >
+                    remove
+                  </button>
+                </div>
               </div>
             ))}
           </div>
