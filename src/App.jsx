@@ -13,7 +13,7 @@ function App() {
   console.log(todos);
   const dispatch = useDispatch();
   return (
-    <div className="bg-gray-100 min-h-screen py-12 ">
+    <div className="bg-gray-100 min-h-screen py-12 dark:bg-gray-900">
       <div className="container mx-auto max-w-lg p-6 bg-white rounded-xl shadow-lg">
         {/* Header */}
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
@@ -50,7 +50,7 @@ function App() {
               <div
                 key={todo.id}
                 className="flex justify-between items-center p-3 bg-gray-50 rounded-lg border border-gray-200 shadow-sm"
-              > 
+              >
                 <label
                   className={`ml-3 block font-medium ${
                     todo.completed
@@ -58,7 +58,9 @@ function App() {
                       : "text-gray-700"
                   }`}
                 >
-                  <span className="text-sm text-gray-500 font-bold mr-2">{todo.serial} .</span>
+                  <span className="text-sm text-gray-500 font-bold mr-2">
+                    {todo.serial} .
+                  </span>
                   {todo.text}
                 </label>
                 <div className="flex space-x-2">
@@ -83,6 +85,9 @@ function App() {
             ))}
           </div>
         )}
+        <button className="text-center px-4 py-3 bg-black text-white dark:bg-white dark:text-black mt-4">
+          Toggle Dark Mode
+        </button>
       </div>
     </div>
   );

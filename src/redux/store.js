@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import todoReducer from './features/todos/todoSlice'
+import preferencesReducer from './features/preferences/preferences';
 
 // Load todos from localStorage
 const loadState = () => {
@@ -38,6 +39,7 @@ const preloadedState = loadState();
 const store = configureStore({
   reducer: {
     todos: todoReducer,
+    preferences: preferencesReducer,
   },
   preloadedState,
 });
