@@ -1,22 +1,36 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import {
   addTodo,
   removeTodo,
   toggleTodo,
 } from "./redux/features/todos/todoSlice";
+import { toggleDarkMode } from "./redux/features/preferences/preferences";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
   const todos = useSelector((state) => state.todos);
+  const darkMode = useSelector((state) => state.preferences.darkMode);
+  console.log(darkMode)
   console.log(todos);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  const handleDarkModeToggle = () => {
+    dispatch(toggleDarkMode());
+  };
   return (
     <div className="bg-gray-100 min-h-screen py-12 dark:bg-gray-900">
-      <div className="container mx-auto max-w-lg p-6 bg-white rounded-xl shadow-lg">
+      <div className="container mx-auto max-w-lg p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
         {/* Header */}
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
           My To-do List
         </h1>
 
@@ -25,7 +39,7 @@ function App() {
           <input
             type="text"
             placeholder="Add a new task..."
-            className="flex-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            className="flex-1 w-full px-4 py-2 border border-gray-300  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             value={newTodo}
             onChange={(e) => setNewTodo(e.target.value)}
           />
@@ -85,7 +99,9 @@ function App() {
             ))}
           </div>
         )}
-        <button className="text-center px-4 py-3 bg-black text-white dark:bg-white dark:text-black mt-4">
+        <button className="text-center px-4 py-3 bg-black text-white dark:bg-white dark:text-black mt-4"
+          onClick={handleDarkModeToggle}
+        >
           Toggle Dark Mode
         </button>
       </div>
