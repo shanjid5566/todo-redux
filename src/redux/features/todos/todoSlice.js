@@ -1,7 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+  return response.json();
+});
+const initialState = {
+  todos: [],
+  loading: false,
+  error: null,
+};
 const todoSlice = createSlice({
   name: "todos",
-  initialState: [],
+  initialState,
   reducers: {
     addTodo: (state, action) => {
       // Determine the next serial number (max existing serial + 1)
@@ -24,6 +33,7 @@ const todoSlice = createSlice({
       return state.filter((todo) => todo.id !== action.payload);
     },
   },
+  
 });
 
 export const { addTodo, toggleTodo, removeTodo } = todoSlice.actions;
