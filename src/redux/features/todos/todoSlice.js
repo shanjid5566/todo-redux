@@ -33,7 +33,20 @@ const todoSlice = createSlice({
       return state.filter((todo) => todo.id !== action.payload);
     },
   },
-  
+  extraReducers: (builder) => {
+    builder.addCase(fetchTodos.pending, (state, action) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+      state.loading = false;
+      state.todos = action.payload;
+    });
+    builder.addCase(fetchTodos.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+  },
 });
 
 export const { addTodo, toggleTodo, removeTodo } = todoSlice.actions;
