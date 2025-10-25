@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import todoReducer from "./features/todos/todoSlice";
 import preferencesReducer from "./features/preferences/preferences";
-import { thunk } from "redux-thunk";
 import { createLogger } from "redux-logger";
 
 // Load todos and preferences from localStorage
@@ -23,7 +22,12 @@ const loadState = () => {
         }
         return t;
       });
-      preloaded.todos = migrated;
+      // todos slice এখন একটা object যার মধ্যে todos array, loading, error আছে
+      preloaded.todos = {
+        todos: migrated,
+        loading: false,
+        error: null,
+      };
     }
 
     if (prefsSerialized) {
@@ -46,7 +50,8 @@ const loadState = () => {
 const saveState = (state) => {
   try {
     if (state.todos !== undefined) {
-      const serialized = JSON.stringify(state.todos);
+      // শুধু todos array সেভ করব, loading এবং error সেভ করার দরকার নেই
+      const serialized = JSON.stringify(state.todos.todos);
       localStorage.setItem("todos", serialized);
     }
     if (state.preferences !== undefined) {
@@ -67,8 +72,9 @@ const store = configureStore({
   },
 
   preloadedState,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(thunk, logger),
+  // getDefaultMiddleware from Redux Toolkit already includes redux-thunk by default,
+  // so don't add thunk again here (that caused a duplicate middleware error).
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 // Subscribe to store changes and persist todos
