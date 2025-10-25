@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   addTodo,
+  fetchTodos,
   removeTodo,
   toggleTodo,
 } from "./redux/features/todos/todoSlice";
@@ -10,10 +11,8 @@ import { toggleDarkMode } from "./redux/features/preferences/preferences";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
-  const todos = useSelector((state) => state.todos);
+  const { todos, loading, error } = useSelector((state) => state.todos);
   const darkMode = useSelector((state) => state.preferences.darkMode);
-  console.log(darkMode)
-  console.log(todos);
   const dispatch = useDispatch();
   useEffect(() => {
     if (darkMode) {
@@ -22,6 +21,11 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
+  console.log("before : ", todos)
 
   const handleDarkModeToggle = () => {
     dispatch(toggleDarkMode());
@@ -56,8 +60,12 @@ function App() {
         </div>
 
         {/* Task List Section */}
-        {todos.length === 0 ? (
-          <p className="text-center text-gray-500">No tasks available.</p>
+        {loading ? (
+          <p className="text-center text-blue-500 dark:text-blue-400">Loading todos...</p>
+        ) : error ? (
+          <p className="text-center text-red-500 dark:text-red-400">Error: {error}</p>
+        ) : todos.length === 0 ? (
+          <p className="text-center text-gray-500 dark:text-gray-400">No tasks available.</p>
         ) : (
           <div className="space-y-3">
             {todos.map((todo) => (
@@ -75,7 +83,7 @@ function App() {
                   <span className="text-sm text-gray-500 font-bold mr-2">
                     {todo.serial} .
                   </span>
-                  {todo.text}
+                  {todo.text || todo.tittle}
                 </label>
                 <div className="flex space-x-2">
                   <button
